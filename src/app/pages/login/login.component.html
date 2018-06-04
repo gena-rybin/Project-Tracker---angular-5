@@ -1,0 +1,14 @@
+<form #loginForm="ngForm" novalidate>
+  <div class="main_content">
+    <span>Login</span>
+    <hr/>
+    <input type="text" pInputText id="login1" [(ngModel)]="login" name="login1" #login1="ngModel" required/>
+    <hr/>
+    <span>Password</span>
+    <hr/>
+    <input type="password" pInputText id="password1" [(ngModel)]="password" name="password1" #password1="ngModel" required/>
+    <hr/>
+    <button pButton type="submit" label="login" (click)="loginClick()"
+            [disabled]="!loginForm.form.valid"></button>
+</div>
+</form>

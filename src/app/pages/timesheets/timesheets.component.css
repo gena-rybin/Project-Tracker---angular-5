@@ -1,0 +1,26 @@
+.day-today{
+  color: #FFFFFF;
+  background: #2399e5;
+  border-radius: 3px;
+}
+.has-comment {
+  background-color: #dee2e6 !important;
+}
+.plus-button {
+  border: darkgrey;
+  color: darkgrey;
+  background: inherit;
+}
+.plus-button:enabled:hover, .plus-button:focus, .plus-button:enabled:hover, .plus-button:focus {
+  border: #1f89ce;
+  color: #1f89ce;
+  background: inherit;
+}
+.arrow-button{
+  padding: 4px;
+  font-size: 26px;
+}
+tr td.total-line input {
+  margin-right: 25px;
+}
+

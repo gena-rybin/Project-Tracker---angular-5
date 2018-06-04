@@ -1,0 +1,61 @@
+<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+
+<pt-navbar-top></pt-navbar-top>
+
+<div class="container">
+  <div class="p-dialog-wrapper">
+    <pt-a-project-modal [(displayDialog)]="displayDialog"
+                         (successSave)="successSaveHandler($event)">
+    </pt-a-project-modal>
+  </div>
+
+  <div class="header_content">
+    <h2>Admin Projects</h2>
+
+    <div class="main_content clearfix">
+      <div style="float: left; display: inline-block">
+        <!--<span class="ui-float-label">-->
+              <!--<input id="float-input" type="text" size="20" pInputText style="height: 36px"-->
+                     <!--[(ngModel)]="input_find_by_description" (ngModelChange)="findPByName()">-->
+              <!--<label for="float-input">Find by description</label>-->
+        <!--</span>-->
+        <input [(ngModel)]="input_find_by_description" placeholder="Find by description"
+               type="text" size="20" style="height: 36px">
+      </div>
+      <div style="float: right; display: inline-block">
+        <button type="button" pButton icon="fa-plus" (click)="showDialogToAdd()" label="Add"></button>
+      </div>
+    </div>
+
+    <div class="main_content table_content">
+      <p-table [value]="projects | findByDescriptionFiler : input_find_by_description" sortMode="multiple" responsive="true" resizableColumns="true" autoLayout="true">
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Customer</th>
+            <th>StartDate</th>
+            <th>Description</th>
+            <!--<th>Tickets</th>-->
+            <th></th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-item let-rowIndex="rowIndex">
+          <tr>
+            <td>{{item.Id}}</td>
+            <td>{{item.Name}}</td>
+            <td>{{item.CustomerName}}</td>
+            <td>{{item.StartDate | date}}</td>
+            <td style="text-align: left"><span>{{item.Description}}</span></td>
+            <!--<td>{{item.Tickets.length}}</td>-->
+            <td>
+              <!--<button pButton type="button" icon="fa-pencil"></button>-->
+              <button pButton type="button" icon="fa-trash" class="ui-button-danger" (click)="confirmDelete(item)"></button>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+
+    </div>
+  </div>
+</div>

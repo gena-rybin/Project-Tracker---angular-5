@@ -1,0 +1,84 @@
+<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+
+<p-dialog header="New ticket" [(visible)]="displayDialog" [responsive]="true" showEffect="fade"
+          [modal]="true" [closable]="false" [width]="500">
+  <form #newTaskModalForm="ngForm" novalidate>
+    <div class="ui-g ui-fluid" *ngIf="newTicket">
+
+        <div class="ui-g-4"><label for="projectId">Project</label></div>
+        <div class="ui-g-8">
+          <input *ngIf="editMode" name="projectName" pInputText [ngModel]="newTicket.Project.Name" readonly/>
+          <select *ngIf="!editMode && projects.length"
+                  name="location" #location="ngModel" required
+                  class="ui-inputtext ui-corner-all ui-state-default ui-widget"
+                  [(ngModel)]="current_projectId" id="projectId">
+            <option *ngFor="let project of projects" [value]="project.Id">
+              {{project.Name}}
+            </option>
+          </select>
+        </div>
+
+        <div class="ui-g-4"><label for="name">Name</label></div>
+        <div class="ui-g-8">
+          <input pInputText id="name" name="name" [(ngModel)]="newTicket.Name" #name="ngModel" required/>
+        </div>
+
+        <div class="ui-g-4"><label for="name">Start date</label></div>
+        <div class="ui-g-8">
+          <p-calendar name="startDate" id="startDate" #startDate="ngModel" required
+                      [(ngModel)]="StartDate"
+                      dateFormat="dd.mm.yy"></p-calendar>
+        </div>
+
+        <div class="ui-g-4"><label for="description">Description</label></div>
+        <div class="ui-g-8">
+          <input pInputText id="description" name="description"
+                 [(ngModel)]="newTicket.Description" #description="ngModel" required/>
+        </div>
+
+        <div class="ui-g-4"><label for="statusId">Status</label></div>
+        <div class="ui-g-8">
+          <select name="statusId" class="ui-inputtext ui-corner-all ui-state-default ui-widget"
+                  [(ngModel)]="current_statusId" id="statusId" #statusId="ngModel">
+            <option *ngFor="let status of statusTypes" [value]="status.id">
+              {{status.name}}
+            </option>
+          </select>
+        </div>
+
+        <div class="ui-g-4"><label for="responsibleId">Responsible</label></div>
+        <div class="ui-g-8">
+          <select *ngIf="employees.length"
+                  name="responsibleId" class="ui-inputtext ui-corner-all ui-state-default ui-widget"
+                  [(ngModel)]="newTicket.ResponsibleId" id="responsibleId" #responsibleId="ngModel" required>
+            <option value="" disabled selected hidden>Placeholder</option>
+            <option *ngFor="let employee of employees" [value]="employee.Id">
+              {{employee.Position.Name}} --> {{employee.FullName}}
+            </option>
+          </select>
+        </div>
+
+        <div class="ui-g-4"><label for="ticketType">TicketType</label></div>
+        <div class="ui-g-8">
+          <select name="ticketType" class="ui-inputtext ui-corner-all ui-state-default ui-widget"
+                  [(ngModel)]="newTicket.TypeId" id="ticketType" #ticketType="ngModel" required>
+            <option *ngFor="let ticket of ticketTypes" [value]="ticket.id">
+              {{ticket.name}}
+            </option>
+          </select>
+        </div>
+    </div>
+    <p-footer>
+      <div class="ui-dialog-buttonpane ui-helper-clearfix">
+        <button type="button" pButton icon="fa-ban" (click)="cancel()" label="Cancel"></button>
+        <button *ngIf="editMode" type="submit" pButton icon="fa-pencil" (click)="editTask()" label="Edit"
+                [disabled]="!(current_projectId && newTaskModalForm.form.valid && StartDate)"></button>
+        <button *ngIf="!editMode" type="submit" pButton icon="fa-check" (click)="save()" label="Save"
+                [disabled]="!(current_projectId && newTaskModalForm.form.valid)"></button>
+
+        <button *ngIf="editMode" type="button" pButton icon="fa-trash" class="ui-button-danger"
+                style="float: left" (click)="confirmDelete()"></button>
+      </div>
+    </p-footer>
+  </form>
+</p-dialog>

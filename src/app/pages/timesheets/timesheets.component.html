@@ -1,0 +1,77 @@
+<div class="p-dialog-wrapper">
+  <pt-new-time-modal [previousTimesheet]="previousTimesheet"
+                      [totalHoursInCurrentDay]="totalHoursInCurrentDay"
+                      [timesheet]="timesheet"
+                      [project_current]="project_current"
+                      [ticket_current]="ticket_current"
+                      [(displayDialog)]="displayDialog"
+                      [editMode]="editMode"
+                      (successSave)="successSaveHandler($event)">
+  </pt-new-time-modal>
+</div>
+
+<pt-navbar-top></pt-navbar-top>
+
+<div class="container">
+  <div *ngIf="projects && projects.length" class="main_content">
+    <table class="table" style="min-width: 690px" (click)="count()">
+      <thead>
+      <tr>
+        <th>Timesheets</th>
+        <th style="cursor: pointer; padding: 0" (click)="prevWeekClicked()">
+          <button type="button" pButton icon="fa-long-arrow-left" class="plus-button arrow-button"></button>
+        </th>
+        <th *ngFor="let day of days_week_current" class="text-center"
+            [ngClass]="(pointToCurrentDay(day.dayMMDDYYYY)) ? 'day-today' : ''">{{day.dayString}}</th>
+        <th style="cursor: pointer; padding: 0" (click)="nextWeekClicked()">
+          <button type="button" pButton icon="fa-long-arrow-right" class="plus-button arrow-button"></button>
+        </th>
+      </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let project of projects; let i=index">
+        <tr style="background-color: rgba(0,0,0,.1)">
+          <td class="head-line"><span pTooltip={{project.Description}} tooltipPosition="top">{{project.Name}}</span></td>
+          <td class="head-line"></td>
+          <td *ngFor="let day of days_week_current" class="head-line"></td>
+          <td class="head-line"></td>
+        </tr>
+
+        <ng-container *ngFor="let ticket of project.Tickets">
+          <tr *ngIf="ticket.StatusId != 5 && !rerender">
+            <td class="small-line">
+              <span class="arrow-right" style="float: left"></span>
+              <span pTooltip={{ticket.Description}} tooltipPosition="top" >{{ticket.Name}}</span>
+            </td>
+            <td class="small-line"></td>
+            <td *ngFor="let day of days_week_current" class="small-line">
+              <input type="text" pInputText
+                     [ngClass]="(showCommentForTimesheet(ticket.TimeSheets, day.dayMMDDYYYY)) ? 'has-comment' : ''"
+                     [value]="showTimesheetForCurrentDate(ticket.TimeSheets, day.dayMMDDYYYY)"
+                     (input)="showDialogToAdd(project, day.dayMMDDYYYY, ticket, $event.target.value)"/>
+              <button pButton type="button" icon="fa-plus" class="plus-button"
+                      (click)="selectComment($event, popup1, ticket.TimeSheets, day.dayMMDDYYYY)">
+              </button>
+              <p-overlayPanel #popup1>
+                <span>{{comment}}</span>
+              </p-overlayPanel>
+            </td>
+            <td class="small-line"></td>
+          </tr>
+        </ng-container>
+
+        <tr>
+          <td class="total-line">Total</td>
+          <td class="total-line"></td>
+          <td *ngFor="let day of days_week_current" class="total-line">
+            <input type="text" pInputText readonly [id]="'total_'+day.dayMMDDYYYY+i"
+                   [value]="showTotalLoggedTime(project.Tickets, day.dayMMDDYYYY)"/>
+          </td>
+          <td class="total-line"></td>
+        </tr>
+
+      </ng-container>
+      </tbody>
+    </table>
+  </div>
+</div>

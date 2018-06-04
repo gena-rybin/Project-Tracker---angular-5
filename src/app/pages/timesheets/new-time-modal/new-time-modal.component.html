@@ -1,0 +1,56 @@
+<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+
+<p-dialog header="Timesheet" [(visible)]="displayDialog" [responsive]="true" showEffect="fade"
+          [modal]="true" [closable]="false" [width]="500">
+  <form #newTimeModalForm="ngForm" novalidate>
+    <div class="ui-g ui-fluid" *ngIf="_timesheet">
+
+      <div class="ui-g-4"><label>Project</label></div>
+      <div class="ui-g-8">
+        <input pInputText [ngModel]="project_current.Name" name="project" readonly/>
+      </div>
+
+      <div class="ui-g-4"><label>Ticket</label></div>
+      <div class="ui-g-8">
+        <input pInputText [ngModel]="ticket_current.Name" name="ticket" readonly/>
+      </div>
+
+      <div class="ui-g-4"><label>Ticket description</label></div>
+      <div class="ui-g-8">
+        <input pInputText [ngModel]="ticket_current.Description" name="description" readonly/>
+      </div>
+
+      <div class="ui-g-4"><label for="loggedTime">Logged time</label></div>
+      <div class="ui-g-8">
+        <input pInputText id="loggedTime" name="loggedTime" #loggedTime required
+               (input)="doExistFreeTimeForLogging()"
+               [(ngModel)]="_timesheet.LoggedTime"
+               [tooltipDisabled]=doExistFreeTimeForLogging()
+               [pTooltip]=hoursMessageOverLimit tooltipPosition="top" tooltipEvent="focus"/>
+
+      </div>
+
+      <div class="ui-g-4"><label for="comment">Comment</label></div>
+      <div class="ui-g-8">
+        <textarea pInputTextarea #comment="ngModel" id="comment" name="comment"
+                  [(ngModel)]="_timesheet.Comment"></textarea>
+      </div>
+
+    </div>
+    <p-footer>
+      <div class="ui-dialog-buttonpane ui-helper-clearfix">
+        <button type="button" pButton icon="fa-ban" (click)="cancel()" label="Cancel"></button>
+        <button *ngIf="editMode" type="button" pButton icon="fa-pencil" (click)="editTimesheet()" label="Edit"
+                [disabled]="!(newTimeModalForm.form.valid
+                            && doExistFreeTimeForLogging()
+                            && _timesheet.TicketId && _timesheet.Date)"></button>
+        <button *ngIf="!editMode" type="button" pButton icon="fa-check" (click)="save()" label="Save"
+                [disabled]="!(newTimeModalForm.form.valid
+                            && doExistFreeTimeForLogging()
+                            && _timesheet.TicketId && _timesheet.Date)"></button>
+        <button *ngIf="editMode" type="button" pButton icon="fa-trash" class="ui-button-danger"
+                style="float: left" (click)="confirmDelete()"></button>
+      </div>
+    </p-footer>
+  </form>
+</p-dialog>

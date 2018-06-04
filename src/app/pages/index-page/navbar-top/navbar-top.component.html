@@ -1,0 +1,26 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+
+  <ul class="navbar-nav mr-auto">
+    <li class="nav-item" [routerLinkActiveOptions]="{exact:true}" routerLinkActive="active" >
+      <a [routerLink]="['']" class="nav-link" >Timesheets</a>
+    </li>
+    <li class="nav-item" routerLinkActive="active">
+      <a [routerLink]="['/tasks']" class="nav-link">Tasks</a>
+    </li>
+    <li class="nav-item" routerLinkActive="active">
+      <a [routerLink]="['/user-profile']" class="nav-link">User</a>
+    </li>
+    <!--<li class="nav-item" routerLinkActive="active">-->
+      <!--<a [routerLink]="['/project-profile']" class="nav-link">Project</a>-->
+    <!--</li>-->
+  </ul>
+
+  <ul class="navbar-nav mr-auto">
+    <li class="nav-item" routerLinkActive="active">
+      <a [routerLink]="['/admin']" class="nav-link">Admin</a>
+    </li>
+  </ul>
+
+  <span *ngIf="userName" class="navbar-text">Hello, {{userName}}</span>
+  <button class="nav-link button-logout" (click)="commonDataService.logout()">Logout</button>
+</nav>

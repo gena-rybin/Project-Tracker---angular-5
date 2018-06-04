@@ -1,0 +1,66 @@
+<div class="p-dialog-wrapper">
+  <pt-new-task-modal [ticket]="ticket"
+                      [(displayDialog)]="displayDialog"
+                      [editMode]="editMode"
+                      (successSave)="successSaveHandler($event)">
+  </pt-new-task-modal>
+</div>
+
+<pt-navbar-top></pt-navbar-top>
+
+<div class="container">
+  <div class="header_content">
+    <h2>Dashboard
+        <button style="position: absolute; right: 5%; font-size: 20px"
+          type="button" pButton icon="fa-plus" (click)="showDialogToAdd()" label="New ticket"></button>
+    </h2>
+
+    <ul class="nav nav-pills justify-content-between">
+      <li *ngFor="let project of projects" class="nav-item" (click)="setActiveProject(project, $event)">
+        <!--<a class="nav-link" href="javascript:void(0);" [id]="'proj__' + project.Id">{{project.Name}}</a>-->
+        <button class="nav-link button-proj-name" [id]="'proj__' + project.Id">{{project.Name}}</button>
+      </li>
+    </ul>
+
+    <div class="main_content">
+      <table *ngIf="project_current && project_current.Id" class="table" style="min-width: 690px">
+        <thead>
+        <tr>
+          <th *ngFor="let status of status_types" class="text-center">{{status.name}}</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr><td style="padding: 1px; font-size:0">skype: gena_ukr79</td></tr>
+        <tr *ngFor="let ticket of tickets">
+          <ng-container *ngFor="let status of status_types" >
+
+            <td *ngIf="status.id === ticket.StatusId"
+                draggable [dragScope]="''+ticket.Id" [dragData]="ticket"
+                class="text-center" style="vertical-align: middle !important; cursor: pointer">
+              <div (click)="showDialogToEdit(ticket); $event.stopPropagation()"
+                   class="task-view">
+                <span>{{ticket.Name}}</span><br>
+                <p>{{ticket.Description}}</p>
+                <span *ngIf="ticket.Responsible && ticket.Responsible.First && ticket.Responsible.Last">
+                  {{ticket.Responsible.First}} {{ticket.Responsible.Last}}
+                </span>
+              </div>
+            </td>
+
+            <td *ngIf="!(status.id === ticket.StatusId)"
+                droppable [dropScope]="''+ticket.Id" (onDrop)="onItemDrop($event, ticket, status.id)"
+                class="text-center" style="vertical-align: middle !important">
+            </td>
+
+          </ng-container>
+        </tr>
+        </tbody>
+      </table>
+
+      <div *ngIf="!(project_current && project_current.Id)" class="header_content">
+        pick up a project to show tickets
+      </div>
+    </div>
+
+  </div>
+</div>

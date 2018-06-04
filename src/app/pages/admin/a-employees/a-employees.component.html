@@ -1,0 +1,72 @@
+<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+
+<div class="p-dialog-wrapper">
+    <pt-a-employee-modal [(displayDialog)]="displayDialog"
+                          [allProjects]="allProjects"
+                          (successSave)="successSaveHandler($event)">
+    </pt-a-employee-modal>
+</div>
+
+<pt-navbar-top></pt-navbar-top>
+
+<div class="container">
+  <div class="header_content">
+    <h2>Admin Employees</h2>
+
+    <div class="main_content clearfix">
+      <div style="float: left; display: inline-block">
+        <!--<span class="ui-float-label">-->
+              <!--<input id="float-input" type="text" size="20" pInputText style="height: 36px"-->
+                     <!--[(ngModel)]="input_find_by_name" (ngModelChange)="findByName()">-->
+              <!--<label for="float-input">Find employee by name</label>-->
+        <!--</span>-->
+        <input [(ngModel)]="input_find_by_name" placeholder="Find by name"
+               type="text" size="20" style="height: 36px">
+      </div>
+      <div style="float: right; display: inline-block">
+        <button type="button" pButton icon="fa-plus" (click)="showDialogToAdd()" label="Add"></button>
+      </div>
+    </div>
+
+    <div class="main_content table_content">
+      <p-table #ees [columns]="cols" [value]="employees | findByNameFiler : input_find_by_name" sortMode="multiple" responsive="true"
+               resizableColumns="true" autoLayout="true"
+               [globalFilterFields]="['FullName']">
+        <ng-template pTemplate="caption">
+            <i class="fa fa-search pull-left" style="margin:4px 4px 0 0"></i>
+            <input type="text" pInputText size="20" placeholder="fullname filter"
+                   (input)="ees.filterGlobal($event.target.value, 'contains'); $event.stopPropagation()"
+                   style="width:auto">
+        </ng-template>
+        <ng-template pTemplate="header" let-columns>
+          <tr>
+            <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+              {{col.header}}
+              <p-sortIcon [field]="col.field"></p-sortIcon>
+              <br>
+            </th>
+            <th></th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-emp let-rowIndex="rowIndex">
+          <tr>
+            <td>{{emp.Id}}</td>
+            <td>{{emp.FullName}}</td>
+            <td>{{emp.Email}}</td>
+            <td>{{emp.Position.Name}}</td>
+            <td>
+              <ng-container *ngFor="let proj of emp.Projects; let i=index">
+                {{proj.Name}}<span *ngIf="i!=emp.Projects.length-1">,</span>
+              </ng-container>
+            </td>
+            <td>
+              <!--<button pButton type="button" icon="fa-pencil"></button>-->
+              <button pButton type="button" icon="fa-trash" class="ui-button-danger" (click)="confirmDelete(emp)"></button>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+
+    </div>
+  </div>
+</div>

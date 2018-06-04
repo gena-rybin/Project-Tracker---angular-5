@@ -1,0 +1,97 @@
+/*color: #2399e5;*/
+li.ui-tabview-selected.ui-state-active + a {
+  color: #2399e5 !important;
+}
+.ui-tabview .ui-tabview-nav li.ui-state-processing a {
+  color: #2399e5 !important;
+}
+.blue {
+  color: #2399e5 !important;
+}
+
+ul.nav.nav-pills {
+  margin: 1px;
+}
+a.nav-link{
+  font-size: 0.8em;
+  color: darkgrey;
+}
+.nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+  font-size: 0.8em;
+  color: #FFFFFF;
+  background: #2399e5;
+  /*padding-bottom: 2px;*/
+  /*padding-top: 2px;*/
+}
+
+.empty-cell{
+  height: 100%;
+  width: 100%;
+  background-color: lightgray;
+}
+td, td div{
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box !important;
+  box-sizing: border-box;
+}
+.table td {
+  border-top: none;
+  padding: 1px;
+}
+.task-view{
+  border: 1px solid rgba(0,0,0,.1);
+  border-radius: 4px;
+  text-align: left !important;
+  padding-left: 12px;
+  padding-right: 4px;
+  padding-bottom: 4px;
+}
+div.task-view > span:first-child{
+  font-weight: bold !important;
+  color: #2399e5;
+  font-size: 14px;
+}
+div.task-view p {
+  margin-bottom: 0.1em;
+}
+div.task-view > span:last-child{
+  /*font-weight: bold !important;*/
+  /*color: #2399e5;*/
+  font-size: 14px;
+}
+/* Draggable*/
+.drag-border {
+  border: #ff525b dashed 2px !important;
+}
+.drag-handle {
+  cursor: move; /* fallback if grab cursor is unsupported */
+  cursor: grab;
+  cursor: -moz-grab;
+  cursor: -webkit-grab;
+}
+.drag-handle:active {
+  cursor: grabbing;
+  cursor: -moz-grabbing;
+  cursor: -webkit-grabbing;
+}
+.button-proj-name{
+  color: darkgrey;
+  text-decoration: none;
+  background-color: transparent;
+  border: none;
+  display: block;
+  padding: .5rem 1rem;
+  cursor: pointer;
+  font-size: 0.8em;
+}
+
+/* Droppable */
+.drag-hint-border {
+  border: #3c763d dashed 2px !important;
+}
+.drag-over-border {
+  border: #fbbc05 dashed 2px !important;
+}
+.drag-transit {
+  border: #3500FF dashed 2px !important;
+}

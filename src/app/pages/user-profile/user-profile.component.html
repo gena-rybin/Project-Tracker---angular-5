@@ -1,0 +1,53 @@
+<pt-navbar-top></pt-navbar-top>
+
+<div class="container">
+  <div *ngIf="employee.First" class="header_content">
+    <h2>{{employee.FullName}}</h2>
+
+    <div class="main_content">
+      <div class="ui-g-4"><label for="Position">Position</label></div>
+      <div class="ui-g-8" *ngIf="employee.Position && employee.Position.Name">
+        <input pInputText id="Position" readonly [ngModel]="employee.Position.Name" />
+      </div>
+
+      <div class="ui-g-4"><label for="Location">Location</label></div>
+      <div class="ui-g-8" *ngIf="employee.Location && employee.Location.Name">
+        <input pInputText id="Location" readonly [ngModel]="employee.Location.Name" />
+      </div>
+    </div>
+
+    <div *ngIf="userProjects && userProjects.length" class="main_content">
+      <table class="table">
+        <thead>
+        <tr>
+          <th>Projects</th>
+          <th></th>
+          <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <ng-container *ngFor="let project of userProjects">
+          <tr style="background-color: rgba(0,0,0,.1)">
+            <td class="head-line"><span pTooltip={{project.Description}} tooltipPosition="top">{{project.Name}}</span></td>
+            <td class="head-line"></td>
+            <td class="head-line"></td>
+          </tr>
+
+          <ng-container *ngFor="let ticket of project.Tickets">
+            <tr>
+              <td class="small-line">
+                <span class="arrow-right" style="float: left"></span>
+                <span>{{ticket.Name}}</span>
+              </td>
+              <td class="small-line" style="text-align: left">{{ticket.Description}}</td>
+              <td class="small-line" style="text-align: left">{{ticket.Status}}</td>
+            </tr>
+          </ng-container>
+
+        </ng-container>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</div>
