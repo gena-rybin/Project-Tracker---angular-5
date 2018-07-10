@@ -15,6 +15,7 @@ export class AEmployeesComponent implements OnInit, OnDestroy {
   _employees = Array<EmployeeModel>(0);
   newEmployees: EmployeeModel;
   displayDialog = false;
+  displayReactiveDialog = false;
   input_find_by_name = '';
   allProjects = Array<ProjectModel>(0);
   cols: any[];
@@ -84,7 +85,12 @@ export class AEmployeesComponent implements OnInit, OnDestroy {
   }
 
   showDialogToAdd() {
+    this.displayReactiveDialog = false;
     this.displayDialog = true;
+  }
+  showReactiveDialogToAdd() {
+    this.displayDialog = false;
+    this.displayReactiveDialog = true;
   }
 
   successSaveHandler(successSave: boolean) {

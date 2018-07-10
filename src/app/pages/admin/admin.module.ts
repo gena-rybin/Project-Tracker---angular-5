@@ -24,6 +24,7 @@ import {SharedModule} from '../shared/shared.module';
 import {FindByNamePipe} from '../../pipes/find-by-name.pipe';
 import {FindByDescriptionPipe} from '../../pipes/find-by-description.pipe';
 import { AProjectModReactiveFComponent } from './a-projects/a-project-mod-reactive-f/a-project-mod-reactive-f.component';
+import { AEmployeesModReactiveFComponent } from './a-employees/a-employees-mod-reactive-f/a-employees-mod-reactive-f.component';
 
 @NgModule({
   imports: [
@@ -44,7 +45,8 @@ import { AProjectModReactiveFComponent } from './a-projects/a-project-mod-reacti
     AProjectModalComponent,
     FindByNamePipe,
     FindByDescriptionPipe,
-    AProjectModReactiveFComponent
+    AProjectModReactiveFComponent,
+    AEmployeesModReactiveFComponent
   ],
   exports: [
     AdminComponent,
@@ -54,7 +56,8 @@ import { AProjectModReactiveFComponent } from './a-projects/a-project-mod-reacti
     AProjectModalComponent,
     FindByNamePipe,
     FindByDescriptionPipe,
-    AProjectModReactiveFComponent
+    AProjectModReactiveFComponent,
+    AEmployeesModReactiveFComponent
   ],
   providers: [ConfirmationService]
 })

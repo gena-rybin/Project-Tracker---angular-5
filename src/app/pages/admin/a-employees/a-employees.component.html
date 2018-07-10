@@ -5,6 +5,10 @@
                           [allProjects]="allProjects"
                           (successSave)="successSaveHandler($event)">
     </pt-a-employee-modal>
+    <pt-a-employees-mod-reactive-form [(displayDialog)]="displayReactiveDialog"
+                          [allProjects]="allProjects"
+                          (successSave)="successSaveHandler($event)">
+    </pt-a-employees-mod-reactive-form>
 </div>
 
 <pt-navbar-top></pt-navbar-top>
@@ -24,7 +28,10 @@
                type="text" size="20" style="height: 36px">
       </div>
       <div style="float: right; display: inline-block">
-        <button type="button" pButton icon="fa-plus" (click)="showDialogToAdd()" label="Add"></button>
+        <button type="button" pButton icon="fa-plus" (click)="showDialogToAdd()" label="Add (template d)"></button>
+      </div>
+      <div style="float: right; display: inline-block">
+        <button type="button" pButton icon="fa-plus" (click)="showReactiveDialogToAdd()" label="Add (reactive f)"></button>
       </div>
     </div>
 
