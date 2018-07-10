@@ -2,7 +2,7 @@
           [(visible)]="displayDialog" [responsive]="true" showEffect="fade"
           [modal]="true" [closable]="false" [width]="500">
 
-  <form [formGroup]="newAdminProjectForm">
+  <form [formGroup]="newAdminProjectForm" (submit)="save()">
     <div class="ui-g ui-fluid">
       <div class="ui-g-4"><label for="name">Name</label></div>
       <div class="ui-g-8">
@@ -13,7 +13,8 @@
       <div class="ui-g-8">
         <p-calendar formControlName="startDate" id="startDate"
                     dateFormat="dd.mm.yy"></p-calendar>
-        <div [hidden]="(newAdminProjectForm.controls['startDate'].untouched)
+        <div [hidden]="newAdminProjectForm.controls['startDate'].pristine
+                      || newAdminProjectForm.controls['endDate'].pristine
                       || (newAdminProjectForm.controls['startDate'].value < newAdminProjectForm.controls['endDate'].value)"
              class="alert-danger">
           'Start Date' should be before 'End Date'
@@ -24,7 +25,8 @@
       <div class="ui-g-8">
         <p-calendar formControlName="endDate" id="endDate"
                     dateFormat="dd.mm.yy"></p-calendar>
-        <div [hidden]="(newAdminProjectForm.controls['endDate'].untouched)
+        <div [hidden]="newAdminProjectForm.controls['endDate'].pristine
+                      || newAdminProjectForm.controls['startDate'].pristine
                       || (newAdminProjectForm.controls['startDate'].value < newAdminProjectForm.controls['endDate'].value)"
              class="alert-danger">
           'End Date' should be after 'Start Date'
@@ -34,6 +36,9 @@
       <div class="ui-g-4"><label for="description">Description</label></div>
       <div class="ui-g-8">
         <input pInputText id="description" formControlName="description" />
+        <div class="alert-danger" *ngIf="isControlInvalid('description')">
+          Name must contain only eng/rus letters and numbers
+        </div>
       </div>
 
       <div class="ui-g-4"><label for="customerName">CustomerName</label></div>
@@ -44,58 +49,12 @@
     </div>
   </form>
 
-  <div>
-    {{newAdminProjectForm.value | json}}
-  </div>
-
-  <form #projectModalForm="ngForm" novalidate>
-    <div class="ui-g ui-fluid" *ngIf="newProject">
-      <!--<div class="ui-g-4"><label for="name">Name</label></div>-->
-      <!--<div class="ui-g-8">-->
-        <!--<input pInputText id="name" [(ngModel)]="newProject.Name" name="name" #name="ngModel" required />-->
-      <!--</div>-->
-
-      <!--<div class="ui-g-4"><label for="name">Start Date</label></div>-->
-      <!--<div class="ui-g-8">-->
-        <!--<p-calendar name="startDate" id="startDate" #startDate="ngModel" required-->
-                    <!--[(ngModel)]="StartDate"-->
-                    <!--dateFormat="dd.mm.yy"></p-calendar>-->
-        <!--<div [hidden]="(startDate.untouched)-->
-                      <!--|| (StartDate < EndDate)"-->
-             <!--class="alert-danger">-->
-          <!--'Start Date' should be larger than 'End Date'-->
-        <!--</div>-->
-      <!--</div>-->
-
-      <!--<div class="ui-g-4"><label for="name">End Date</label></div>-->
-      <!--<div class="ui-g-8">-->
-        <!--<p-calendar name="endDate" id="endDate" #endDate="ngModel"-->
-                    <!--[(ngModel)]="EndDate"-->
-                    <!--dateFormat="dd.mm.yy"></p-calendar>-->
-        <!--<div [hidden]="(endDate.untouched)-->
-                      <!--|| (StartDate < EndDate)" class="alert-danger">-->
-          <!--'End Date' should be smaller than 'Start Date'-->
-        <!--</div>-->
-      <!--</div>-->
-
-      <!--<div class="ui-g-4"><label for="description">Description</label></div>-->
-      <!--<div class="ui-g-8">-->
-        <!--<input pInputText id="description" name="description"-->
-               <!--[(ngModel)]="newProject.Description" #description="ngModel" required />-->
-      <!--</div>-->
-
-      <!--<div class="ui-g-4"><label for="customerName">CustomerName</label></div>-->
-      <!--<div class="ui-g-8">-->
-        <!--<input pInputText id="customerName" name="customerName"-->
-               <!--[(ngModel)]="newProject.CustomerName" #customerName="ngModel" required />-->
-      <!--</div>-->
-    </div>
-  </form>
   <p-footer>
     <div class="ui-dialog-buttonpane ui-helper-clearfix">
       <button type="button" pButton icon="fa-ban" (click)="cancel()" label="Cancel"></button>
-      <button type="submit" pButton icon="fa-check" (click)="save()" label="Save"></button>
-              <!--[disabled]="!(projectModalForm.form.valid)"></button>-->
+      <button type="submit" pButton icon="fa-check" (click)="save()" label="Save"
+              [disabled]="!(newAdminProjectForm.valid
+                        && (newAdminProjectForm.controls['startDate'].value < newAdminProjectForm.controls['endDate'].value))"></button>
     </div>
 
 

@@ -62,6 +62,7 @@ td.small-line .ui-button-icon-only .ui-button-text {
 }
 .alert-danger{
   font-size: 0.85em;
+  padding-left: 2px;
 }
 button:focus {
   outline: 0;

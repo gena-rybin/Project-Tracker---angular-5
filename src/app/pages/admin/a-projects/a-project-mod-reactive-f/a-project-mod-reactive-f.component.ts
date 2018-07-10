@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
+ import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {FormGroup, FormBuilder, FormControl, Validators} from '@angular/forms';
 
 import {ProjectModel} from '../../../../models/project.model';
@@ -41,15 +41,21 @@ export class AProjectModReactiveFComponent implements OnInit, OnDestroy {
     this.newAdminProjectForm = this.fb.group({
       name: ['emptyName', Validators.compose([Validators.required])],
       description: [null, Validators.compose([
-          Validators.required, Validators.minLength(1), Validators.pattern(/[А-я]/)
+          Validators.required, Validators.minLength(1), Validators.pattern(/^[А-яa-z0-9 ]+$/i)
       ])],
-      customerName: [null],
+      customerName: [null, Validators.compose([Validators.required])],
       startDate: [null, Validators.compose([Validators.required])],
       endDate: [null, Validators.compose([Validators.required])],
       imageUrl: [null],
       tickets: [[]],
       id: [null]
     });
+  }
+
+  isControlInvalid(controlName: string): boolean {
+    const control = this.newAdminProjectForm.controls[controlName];
+    const result = control.invalid && control.touched;
+    return result;
   }
 
   showDialogToAdd() {
@@ -62,11 +68,14 @@ export class AProjectModReactiveFComponent implements OnInit, OnDestroy {
   }
 
   public save() {
-    if (this.StartDate && this.EndDate && (this.StartDate < this.EndDate)) {
-      this.newProject.StartDate = DateTime.fromJSDate(this.StartDate).toISODate();
-      this.newProject.EndDate = DateTime.fromJSDate(this.EndDate).toISODate();
+    if (this.newAdminProjectForm.valid
+      && (this.newAdminProjectForm.controls['startDate'].value < this.newAdminProjectForm.controls['endDate'].value)) {
+      this.newAdminProjectForm.value.startDate = DateTime.fromJSDate(this.newAdminProjectForm.value.startDate).toISODate();
+      this.newAdminProjectForm.value.endDate = DateTime.fromJSDate(this.newAdminProjectForm.value.endDate).toISODate();
 
-      this.backendService.addProject(this.newProject)
+      console.log(this.newAdminProjectForm.value);
+
+      this.backendService.addProject(this.newAdminProjectForm.value)
         .takeWhile(() => this.alive)
         .subscribe(() => {
           this.successSave.emit(true);
