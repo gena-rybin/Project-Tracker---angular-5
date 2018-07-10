@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 import {InputTextModule} from 'primeng/inputtext';
 import {ButtonModule} from 'primeng/button';
@@ -23,11 +23,13 @@ import {AProjectsComponent} from './a-projects/a-projects.component';
 import {SharedModule} from '../shared/shared.module';
 import {FindByNamePipe} from '../../pipes/find-by-name.pipe';
 import {FindByDescriptionPipe} from '../../pipes/find-by-description.pipe';
+import { AProjectModReactiveFComponent } from './a-projects/a-project-mod-reactive-f/a-project-mod-reactive-f.component';
 
 @NgModule({
   imports: [
     CommonModule,
     AdminRoutingModule,
+    ReactiveFormsModule,
     FormsModule,
     SharedModule,
     InputTextModule, ButtonModule, TableModule, DialogModule, TabViewModule, CalendarModule, InputTextareaModule,
@@ -41,7 +43,8 @@ import {FindByDescriptionPipe} from '../../pipes/find-by-description.pipe';
     AEmployeeModalComponent,
     AProjectModalComponent,
     FindByNamePipe,
-    FindByDescriptionPipe
+    FindByDescriptionPipe,
+    AProjectModReactiveFComponent
   ],
   exports: [
     AdminComponent,
@@ -50,7 +53,8 @@ import {FindByDescriptionPipe} from '../../pipes/find-by-description.pipe';
     AEmployeeModalComponent,
     AProjectModalComponent,
     FindByNamePipe,
-    FindByDescriptionPipe
+    FindByDescriptionPipe,
+    AProjectModReactiveFComponent
   ],
   providers: [ConfirmationService]
 })

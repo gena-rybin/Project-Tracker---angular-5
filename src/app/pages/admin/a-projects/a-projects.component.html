@@ -8,6 +8,11 @@
                          (successSave)="successSaveHandler($event)">
     </pt-a-project-modal>
   </div>
+  <div class="p-dialog-wrapper">
+    <pt-a-project-mod-reactive-form [(displayDialog)]="displayReactiveDialog"
+                         (successSave)="successSaveHandler($event)">
+    </pt-a-project-mod-reactive-form>
+  </div>
 
   <div class="header_content">
     <h2>Admin Projects</h2>
@@ -24,6 +29,9 @@
       </div>
       <div style="float: right; display: inline-block">
         <button type="button" pButton icon="fa-plus" (click)="showDialogToAdd()" label="Add"></button>
+      </div>
+      <div style="float: right; display: inline-block">
+        <button type="button" pButton icon="fa-plus" (click)="showReactiveDialogToAdd()" label="reactive f"></button>
       </div>
     </div>
 

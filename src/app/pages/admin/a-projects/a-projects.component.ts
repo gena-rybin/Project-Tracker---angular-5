@@ -14,6 +14,7 @@ export class AProjectsComponent implements OnInit, OnDestroy {
   projects = Array<ProjectModel>(0);
   _projects = Array<ProjectModel>(0);
   employees = Array<EmployeeModel>(0);
+  displayReactiveDialog = false;
   displayDialog = false;
   input_find_by_description = '';
   alive = true;
@@ -96,7 +97,13 @@ export class AProjectsComponent implements OnInit, OnDestroy {
   }
 
   showDialogToAdd() {
+    this.displayReactiveDialog = false;
     this.displayDialog = true;
+  }
+
+  showReactiveDialogToAdd() {
+    this.displayDialog = false;
+    this.displayReactiveDialog = true;
   }
 
   successSaveHandler(successSave: boolean) {
