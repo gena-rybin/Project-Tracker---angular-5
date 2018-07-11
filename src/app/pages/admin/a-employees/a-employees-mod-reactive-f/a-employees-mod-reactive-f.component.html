@@ -1,24 +1,26 @@
 <p-dialog header="New Employee Details (with Reactive Forms)" [(visible)]="displayDialog" [responsive]="true" showEffect="fade"
           [modal]="true" [closable]="false" [width]="500">
-  <form #employeeModalForm="ngForm" novalidate>
-    <div class="ui-g ui-fluid" *ngIf="newEmployees">
+  <form [formGroup]="newAdminEmployeeForm" (submit)="save()">
+    <div class="ui-g ui-fluid" *ngIf="newAdminEmployeeForm.value">
 
-      <div class="ui-g-4"><label for="first">First name</label></div>
+      <div class="ui-g-4"><label for="first">* First name</label></div>
       <div class="ui-g-8">
-        <input pInputText id="first" name="first" [(ngModel)]="newEmployees.First" #first="ngModel" required />
+        <input pInputText id="first" formControlName="First" />
       </div>
 
-      <div class="ui-g-4"><label for="last">Last name</label></div>
+      <div class="ui-g-4"><label for="last">* Last name</label></div>
       <div class="ui-g-8">
-        <input pInputText id="last" name="last" [(ngModel)]="newEmployees.Last" #last="ngModel" required />
+        <input pInputText id="last" formControlName="Last" />
       </div>
 
-      <div class="ui-g-4"><label for="email">Email</label></div>
-      <div class="ui-g-8"><input pInputText id="email" name="email" [(ngModel)]="newEmployees.Email" /></div>
+      <div class="ui-g-4"><label for="email">* Email</label></div>
+      <div class="ui-g-8"><input pInputText id="email" formControlName="Email" /></div>
 
       <div class="ui-g-4"><label for="Location">Location</label></div>
       <div class="ui-g-8">
         <select name="Location" class="ui-inputtext ui-corner-all ui-state-default ui-widget"
+                (change)="fillLocation(currentLocation)"
+                [ngModelOptions]="{standalone: true}"
                 [(ngModel)]="currentLocation" id="Location">
           <option *ngFor="let loc of allLocations" [value]="loc.id">
             {{loc.name}}
@@ -26,15 +28,17 @@
         </select>
       </div>
 
-      <div class="ui-g-4"><label for="address">Address</label></div>
-      <div class="ui-g-8"><input pInputText id="address" name="address" [(ngModel)]="newEmployees.Address" /></div>
+      <div class="ui-g-4"><label for="address">* Address</label></div>
+      <div class="ui-g-8"><input pInputText id="address" formControlName="Address"/></div>
 
-      <div class="ui-g-4"><label for="skype">Skype</label></div>
-      <div class="ui-g-8"><input pInputText id="skype" name="skype" [(ngModel)]="newEmployees.Skype" /></div>
+      <div class="ui-g-4"><label for="skype">* Skype</label></div>
+      <div class="ui-g-8"><input pInputText id="skype" formControlName="Skype"/></div>
 
       <div class="ui-g-4"><label for="Projects">Projects</label></div>
       <div class="ui-g-8" *ngIf="allProjects.length">
         <select name="select_Projects" class="ui-inputtext ui-corner-all ui-state-default ui-widget"
+                (change)="fillProjects(currentProjectId)"
+                [ngModelOptions]="{standalone: true}"
                 [(ngModel)]="currentProjectId" id="Projects">
           <option *ngFor="let project of allProjects" [value]="project.Id">
             {{project.Name}}
@@ -42,12 +46,14 @@
         </select>
       </div>
 
-      <div class="ui-g-4"><label for="phone">Phone</label></div>
-      <div class="ui-g-8"><input pInputText id="phone" name="phone" [(ngModel)]="newEmployees.Phone" /></div>
+      <div class="ui-g-4"><label for="phone">* Phone</label></div>
+      <div class="ui-g-8"><input pInputText id="phone" formControlName="Phone"/></div>
 
       <div class="ui-g-4"><label for="position">Position</label></div>
       <div class="ui-g-8" *ngIf="allPositions.length">
-        <select name="select_Projects" class="ui-inputtext ui-corner-all ui-state-default ui-widget"
+        <select name="select_Position" class="ui-inputtext ui-corner-all ui-state-default ui-widget"
+                (change)="fillPosition(currentPosition)"
+                [ngModelOptions]="{standalone: true}"
                 [(ngModel)]="currentPosition" id="position">
           <option *ngFor="let position of allPositions" [value]="position.id">
             {{position.name}}
@@ -55,12 +61,14 @@
         </select>
       </div>
 
-      <div class="ui-g-4"><label for="password">Password</label></div>
-      <div class="ui-g-8"><input pInputText id="password" name="password" [(ngModel)]="newEmployees.Password" /></div>
+      <div class="ui-g-4"><label for="password">* Password</label></div>
+      <div class="ui-g-8"><input pInputText id="password" formControlName="Password"/></div>
 
       <div class="ui-g-4"><label for="role">Role</label></div>
       <div class="ui-g-8" *ngIf="allRoles.length">
         <select name="select_role" class="ui-inputtext ui-corner-all ui-state-default ui-widget"
+                (change)="fillRole(currentRole)"
+                [ngModelOptions]="{standalone: true}"
                 [(ngModel)]="currentRole" id="role">
           <option *ngFor="let role of allRoles" [value]="role.id">
             {{role.name}}
@@ -73,8 +81,10 @@
       <div class="ui-dialog-buttonpane ui-helper-clearfix">
         <button type="button" pButton icon="fa-ban" (click)="cancel()" label="Cancel"></button>
         <button type="submit" pButton icon="fa-check" (click)="save()" label="Save"
-                [disabled]="!employeeModalForm.form.valid"></button>
+                [disabled]="!(newAdminEmployeeForm.valid)"></button>
       </div>
+
+      {{newAdminEmployeeForm.value | json}}
     </p-footer>
   </form>
 </p-dialog>
